@@ -11,9 +11,17 @@
         "Other"
     ],
     "activationEvents": [
-        "onLanguage:markdown"
+        "onCommand:extension.config.format"
     ],
     "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.config.format",
+                "title": "Config: Format All"
+            }
+        ]
+    },
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
