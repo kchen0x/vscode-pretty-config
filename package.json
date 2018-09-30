@@ -11,14 +11,19 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.config.format"
+        "onCommand:extension.pretty-config.format",
+        "onCommand:extension.pretty-config.enable"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.config.format",
-                "title": "Config: Format All"
+                "command": "extension.pretty-config.format",
+                "title": "Pretty Config: Format All"
+            },
+            {
+                "command": "etension.pretty-config.enable",
+                "title": "Pretty Config: Enable Mode"
             }
         ]
     },

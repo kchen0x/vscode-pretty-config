@@ -1,4 +1,5 @@
 'use strict';
+
 import * as vscode from 'vscode';
 import { registerContext, ContextType, enterContext, exitContext, restoreContext } from './context';
 
@@ -6,11 +7,29 @@ import { registerContext, ContextType, enterContext, exitContext, restoreContext
 export function activate(ctx: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "vscode-pretty-config" is now active!');
 
+    // show status bar
     const statusItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-    registerContext(ContextType.TableMode, '$(book) Table Mode', statusItem);
+    registerContext(ContextType.TableMode, '$(book) Pretty Mode', statusItem);
     statusItem.show();
 
-    let disposable = vscode.commands.registerCommand('extension.config.format', () => {
+    vscode.window.onDidChangeActiveTextEditor(e => {
+        if (e) {
+            restoreContext(e);
+        }
+    });
+
+    ctx.subscriptions.push(vscode.commands.registerCommand('extension.pretty-config.enable', () => {
+        vscode.window.showInformationMessage('Pretty Config enabled!');
+    }));
+    ctx.subscriptions.push(vscode.commands.registerTextEditorCommand('extension.pretty-config.tableModeOn',
+        (e) => enterContext(e, ContextType.TableMode)));
+    ctx.subscriptions.push(vscode.commands.registerTextEditorCommand('extension.pretty-config.tableModeOff',
+        (e) => exitContext(e, ContextType.TableMode)));
+
+
+
+
+    let disposable = vscode.commands.registerCommand('extension.pretty-config.format', () => {
         let editor = vscode.window.activeTextEditor;
         if (!editor) {
             return;
@@ -33,7 +52,8 @@ class WordCounter {
         
     }
 
-    private _statusBarItem: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+    private _statusBarItem: vscode.StatusBarItem =
+        vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
 
     /**
      * updateWordCount
