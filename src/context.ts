@@ -1,3 +1,4 @@
+'use strict';
 import * as vscode from 'vscode';
 
 export enum ContextType {
@@ -33,10 +34,6 @@ export function exitContext(editor: vscode.TextEditor, type: ContextType) {
     }
 }
 
-/**
- * restoreContext
- * @param editor 
- */
 export function restoreContext(editor: vscode.TextEditor) {
     let toEnter: ContextType[] = [];
     let toExit: ContextType[] = Object.keys(ContextType).map((x: any) => ContextType[x] as ContextType);
